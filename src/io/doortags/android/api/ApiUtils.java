@@ -10,7 +10,7 @@ import java.net.URLEncoder;
 
 class ApiUtils {
     // FIXME: USE HTTPS
-    public static final String API_URL = "http://doortags.io/api";
+    public static final String API_URL = "http://www.getdoortags.com/api";
 
     public static URL endpoint (String resource) throws MalformedURLException {
         return new URL(API_URL + resource);
@@ -77,25 +77,7 @@ class ApiUtils {
         return res;
     }
 
-    public static class Tuple<F, S> {
-        private F first;
-        private S second;
-
-        public Tuple(F first, S second) {
-            this.first = first;
-            this.second = second;
-        }
-
-        public F getFirst() {
-            return first;
-        }
-
-        public S getSecond() {
-            return second;
-        }
-    }
-
-    public static Tuple<Integer, String> requestHelper (String method, String resource,
+    public static Utils.Tuple<Integer, String> requestHelper (String method, String resource,
                                                         String contents) throws
             IOException {
         contents = (contents == null) ? "" : contents;
@@ -118,7 +100,7 @@ class ApiUtils {
             String responseBody = Utils.inputStreamToString(in);
             in.close();
 
-            return new Tuple<Integer, String>(connection.getResponseCode(), responseBody);
+            return new Utils.Tuple<Integer, String>(connection.getResponseCode(), responseBody);
         } finally {
             connection.disconnect();
         }

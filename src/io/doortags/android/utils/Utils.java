@@ -33,4 +33,22 @@ public class Utils {
         Scanner s = new Scanner(in, encoding).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
     }
+
+    public static class Tuple<F, S> {
+        private F first;
+        private S second;
+
+        public Tuple(F first, S second) {
+            this.first = first;
+            this.second = second;
+        }
+
+        public F getFirst() {
+            return first;
+        }
+
+        public S getSecond() {
+            return second;
+        }
+    }
 }

@@ -2,6 +2,8 @@ package io.doortags.android.api;
 
 import java.io.IOException;
 
+import static io.doortags.android.utils.Utils.Tuple;
+
 public class PutJsonResponse extends JsonResponse {
     public PutJsonResponse(int responseCode, String body) {
         super(responseCode, body);
@@ -9,7 +11,7 @@ public class PutJsonResponse extends JsonResponse {
 
     public static PutJsonResponse makeRequest (String resource, String contents)
             throws IOException {
-        ApiUtils.Tuple<Integer, String> result = ApiUtils.requestHelper("PUT", resource,
+        Tuple<Integer, String> result = ApiUtils.requestHelper("PUT", resource,
                 contents);
         return new PutJsonResponse(result.getFirst(), result.getSecond());
     }

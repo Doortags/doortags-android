@@ -5,8 +5,22 @@
 
     <!-- Action bar items -->
     <string name="prefs_item_title">Settings</string>
+
+    <!-- Preferences -->
     <string name="pref_name_title">Name</string>
     <string name="pref_name_summary">Your name, or what you\'d like to be called</string>
     <string name="pref_number_title">Phone number</string>
     <string name="pref_number_summary">Your phone number</string>
+
+    <!-- ReadingFragment -->
+    <string name="read_hint">Place your device near the tag to read</string>
+    <string name="card_header">My card</string>
+    <string name="card_name_label">Name</string>
+    <string name="card_phone_label">Phone number</string>
+
+    <!-- LoginFragment -->
+    <string name="login_password_label">Password</string>
+    <string name="login_email_label">Email</string>
+    <string name="login_submit_text">Submit</string>
+    <string name="login_cancel_text">Cancel</string>
 </resources>

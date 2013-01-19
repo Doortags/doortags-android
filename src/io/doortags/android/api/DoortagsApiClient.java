@@ -14,6 +14,10 @@ public class DoortagsApiClient {
 
     private String authToken;
 
+    public String getAuthToken() {
+        return authToken;
+    }
+
     private DoortagsApiClient (String authToken) {
         this.authToken = authToken;
     }

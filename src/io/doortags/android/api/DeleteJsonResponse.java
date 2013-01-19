@@ -1,6 +1,7 @@
 package io.doortags.android.api;
 
 import java.io.IOException;
+import static io.doortags.android.utils.Utils.Tuple;
 
 public class DeleteJsonResponse extends JsonResponse {
     private int responseCode;
@@ -12,7 +13,7 @@ public class DeleteJsonResponse extends JsonResponse {
 
     public static DeleteJsonResponse makeRequest(String resource, String contents)
             throws IOException {
-        ApiUtils.Tuple<Integer, String> result = ApiUtils.requestHelper("POST", resource,
+        Tuple<Integer, String> result = ApiUtils.requestHelper("POST", resource,
                 contents);
         return new DeleteJsonResponse(result.getFirst(), result.getSecond());
     }
