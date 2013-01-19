@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">doortags-android</string>
+    <string name="app_name">Doortags</string>
+    <string name="main_activity_label">Doortags</string>
+
+    <!-- Action bar items -->
+    <string name="prefs_item_title">Settings</string>
+    <string name="pref_name_title">Name</string>
+    <string name="pref_name_summary">Your name, or what you\'d like to be called</string>
+    <string name="pref_number_title">Phone number</string>
+    <string name="pref_number_summary">Your phone number</string>
 </resources>
