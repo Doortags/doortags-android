@@ -5,6 +5,9 @@
 
     <!-- Action bar items -->
     <string name="prefs_item_title">Settings</string>
+    <string name="add_tag_title">Add tag</string>
+    <string name="remove_tag_title">Delete</string>
+    <string name="write_tag_title">Write tag</string>
 
     <!-- Preferences -->
     <string name="pref_name_title">Name</string>
@@ -23,5 +26,7 @@
     <string name="login_email_label">Email</string>
     <string name="login_submit_text">Submit</string>
     <string name="login_cancel_text">Cancel</string>
+
+    <!-- TagsListFragment -->
     <string name="no_tags_label">You have no tags</string>
 </resources>

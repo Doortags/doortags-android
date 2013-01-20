@@ -1,10 +1,11 @@
 package io.doortags.android;
 
-import android.app.*;
+import android.app.ActionBar;
+import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
@@ -64,13 +65,6 @@ public class MainActivity extends Activity {
         };
 
         actionBar.setListNavigationCallbacks(mSpinnerAdapter, mNavigationCallback);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_toolbar, menu);
-        return true;
     }
 
     @Override
