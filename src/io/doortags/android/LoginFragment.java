@@ -2,6 +2,8 @@ package io.doortags.android;
 
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -88,7 +90,15 @@ public class LoginFragment extends DialogFragment {
             } else {
                 Toast.makeText(ctx, "Login successful", Toast.LENGTH_SHORT).show();
                 parent.dismiss();
+
+                FragmentManager manager = getActivity().getFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.replace(R.id.fragment_container,
+                        new TagsListFragment(), MainActivity.MANAGE_ID);
+                transaction.commit();
             }
+
+
         }
     }
 }

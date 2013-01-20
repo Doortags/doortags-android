@@ -17,8 +17,8 @@ import org.danielge.nfcskeleton.NdefReaderActivity;
 public class MainActivity extends NdefReaderActivity {
     private static final int POS_RING = 0,
                              POS_MANAGE = 1;
-    private static final String RING_ID = "ring",
-                                MANAGE_ID = "manage";
+    static final String RING_ID = "ring",
+                        MANAGE_ID = "manage";
     private static final String TAG = MainActivity.class.getSimpleName();
 
     /**
@@ -49,19 +49,37 @@ public class MainActivity extends NdefReaderActivity {
 
             @Override
             public boolean onNavigationItemSelected(int position, long itemId) {
-                FragmentManager manager = getFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
+
 
                 switch (position) {
                     case POS_RING:
+                        FragmentManager manager = getFragmentManager();
+                        FragmentTransaction transaction = manager.beginTransaction();
                         transaction.replace(R.id.fragment_container,
                                 new ReadingFragment(), RING_ID);
                         transaction.commit();
                         return true;
+
                     case POS_MANAGE:
-                        transaction.replace(R.id.fragment_container,
-                                new TagsListFragment(), MANAGE_ID);
-                        transaction.commit();
+                        DoortagsApp app = (DoortagsApp) getApplication();
+                        if (app.getClient() == null) {
+                            FragmentTransaction ft = getFragmentManager().beginTransaction();
+                            Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+                            if (prev != null) {
+                                ft.remove(prev);
+                            }
+                            ft.addToBackStack(null);
+
+                            // Create and show the dialog.
+                            DialogFragment newFragment = new LoginFragment();
+                            newFragment.show(ft, "dialog");
+                        } else {
+                            FragmentManager fragmentManager = getFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.fragment_container,
+                                    new TagsListFragment(), MainActivity.MANAGE_ID);
+                            fragmentTransaction.commit();
+                        }
                         return true;
                     default:
                         return false;
