@@ -50,9 +50,13 @@ public class TagsListFragment extends ListFragment {
             case R.id.prefs_item:
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
                 return true;
-            case R.id.add_tag_item:
+            /*case R.id.add_tag_item:
                 return true;
             case R.id.remove_tag_item:
+                return true;*/
+            case R.id.refresh_item:
+                (new GetTagsTask()).execute(((DoortagsApp)getActivity().getApplication())
+                        .getClient());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
