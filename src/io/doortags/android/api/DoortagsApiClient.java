@@ -73,13 +73,14 @@ public class DoortagsApiClient {
         }
     }
     
-    public void sendMessage (String message, String phoneNumber, int tag_code, String name) 
+    public static void sendMessage (String message, String phoneNumber, int tag_code,
+                              String name)
     		throws IOException, DoortagsApiException {
     	Params params = Params.start("message", message)
     						  .addParam("tag_id", tag_code)
     						  .addParam("name", String.format("%s (%s)", name,
                                       phoneNumber));
-    	JsonResponse response = PostJsonResponse.makeAuthRequest("/message", authToken, params, null);
+    	JsonResponse response = PostJsonResponse.makeRequest("/message", params, null);
     	if (response.getResponseCode() == HTTP_OK) {
     		return;
     	}
@@ -87,7 +88,7 @@ public class DoortagsApiClient {
     	defaultErrorHandler(response);
     }
     
-    public Tag[] getTagsOfUser() throws IOException, DoortagsApiException{
+    public Tag[] getAllTags() throws IOException, DoortagsApiException{
     	JsonResponse response = GetJsonResponse.makeAuthRequest("/tags", authToken, null);
     	
     	if (response.getResponseCode() == HTTP_OK) {
