@@ -1,9 +1,6 @@
 package io.doortags.android;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.ProgressDialog;
+import android.app.*;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -30,6 +27,8 @@ import java.io.IOException;
 public class SendProgressFragment extends DialogFragment {
 
     private int id;
+    private String clientName;
+    private String clientLocation;
 
     static SendProgressFragment newInstance(int id) {
         SendProgressFragment f = new SendProgressFragment();
@@ -57,7 +56,7 @@ public class SendProgressFragment extends DialogFragment {
         String identifier =  String.valueOf(id);
         Activity act = that.getActivity();
         DoortagsApp app = (DoortagsApp) act.getApplication();
-        (new SendProgressTask(act, app.getClient(), app)).execute(identifier);
+        (new SendProgressTask(act, app)).execute(identifier);
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,15 +70,13 @@ public class SendProgressFragment extends DialogFragment {
     private class SendProgressTask extends AsyncTask<String, Void,
             Utils.Tuple<Boolean, String>> {
         private final Context ctx;
-        private final DoortagsApiClient client;
         private final SendProgressFragment parent;
         private final DoortagsApp app;
 
 
-        public SendProgressTask(Context ctx, DoortagsApiClient client, DoortagsApp app) {
+        public SendProgressTask(Context ctx, DoortagsApp app) {
 
             this.ctx = ctx;
-            this.client = client;
             this.app = app;
             this.parent = SendProgressFragment.this;
         }
@@ -87,14 +84,15 @@ public class SendProgressFragment extends DialogFragment {
         @Override
         protected Utils.Tuple<Boolean, String> doInBackground(String... params) {
             String id = params[0];
-            String clientName;
-            String clientLocation;
+            clientName = "Client Name";
+            clientLocation = "Client Location";
 
             // This blocks and can throw exceptions
             try {
                 Tag tag = DoortagsApiClient.getTag(Integer.parseInt(id));
                 clientName = tag.getUser();
                 clientLocation = tag.getLocation();
+
 
             } catch (IOException e) {
                 return new Utils.Tuple<Boolean, String>(false, "Please check your connection");
@@ -113,8 +111,19 @@ public class SendProgressFragment extends DialogFragment {
                 parent.dismiss();
 
             } else {
-                //On working case
                 parent.dismiss();
+
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+                if (prev != null) {
+                    ft.remove(prev);
+                }
+                ft.addToBackStack(null);
+
+                // Create and show the dialog.
+                DialogFragment newFragment = SendMessageFragment.newInstance(id,clientName,clientLocation);
+                newFragment.show(ft, "dialog");
+
             }
         }
     }

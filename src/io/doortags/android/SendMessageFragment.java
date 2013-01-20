@@ -52,6 +52,7 @@ public class SendMessageFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
+
         final View view = inflater.inflate(R.layout.sendmsg_fragment, container, false);
         Button submit = (Button) view.findViewById(R.id.sendmsg_submit);
         Button cancel = (Button) view.findViewById(R.id.sendmsg_cancel);
@@ -59,6 +60,7 @@ public class SendMessageFragment extends DialogFragment {
         TextView sendmsg_location = (TextView) view.findViewById(R.id.sendmsg_location);
         sendmsg_name.setText(name);
         sendmsg_location.setText(location);
+
 
         final SendMessageFragment that = this;
         submit.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +71,7 @@ public class SendMessageFragment extends DialogFragment {
                         .getText().toString();
                 Activity act = that.getActivity();
                 DoortagsApp app = (DoortagsApp) act.getApplication();
-                (new SendMessageTask(act, app.getClient(), app)).execute(identifier, message);
+                (new SendMessageTask(act, app)).execute(identifier, message);
             }
 
         });
@@ -87,15 +89,13 @@ public class SendMessageFragment extends DialogFragment {
     private class SendMessageTask extends AsyncTask<String, Void,
             Utils.Tuple<Boolean, String>> {
         private final Context ctx;
-        private final DoortagsApiClient client;
         private final SendMessageFragment parent;
         private final DoortagsApp app;
 
 
-        public SendMessageTask(Context ctx, DoortagsApiClient client, DoortagsApp app) {
+        public SendMessageTask(Context ctx, DoortagsApp app) {
 
             this.ctx = ctx;
-            this.client = client;
             this.app = app;
             this.parent = SendMessageFragment.this;
         }
@@ -108,7 +108,7 @@ public class SendMessageFragment extends DialogFragment {
             // This blocks and can throw exceptions
             try {
                 Tag tag = DoortagsApiClient.getTag(Integer.parseInt(id));
-                client.sendMessage(message,
+                DoortagsApiClient.sendMessage(message,
                         app.getPrefs().getString(SettingsActivity.PREF_PHONE, ""),
                         tag.getId(),
                         app.getPrefs().getString(SettingsActivity.PREF_NAME, ""));
