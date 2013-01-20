@@ -54,7 +54,7 @@ public class SendMessageFragment extends DialogFragment {
             savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.sendmsg_fragment, container, false);
-        Button submit = (Button) view.findViewById(R.id.sendmsg_submit);
+        Button sendmsg_submit = (Button) view.findViewById(R.id.sendmsg_submit);
         Button cancel = (Button) view.findViewById(R.id.sendmsg_cancel);
         TextView sendmsg_name = (TextView) view.findViewById(R.id.sendmsg_name);
         TextView sendmsg_location = (TextView) view.findViewById(R.id.sendmsg_location);
@@ -63,10 +63,10 @@ public class SendMessageFragment extends DialogFragment {
 
 
         final SendMessageFragment that = this;
-        submit.setOnClickListener(new View.OnClickListener() {
+        sendmsg_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String identifier =  String.valueOf(id);
+                String identifier = String.valueOf(id);
                 String message = ((TextView) view.findViewById(R.id.sendmsg_text))
                         .getText().toString();
                 Activity act = that.getActivity();
@@ -107,10 +107,9 @@ public class SendMessageFragment extends DialogFragment {
 
             // This blocks and can throw exceptions
             try {
-                Tag tag = DoortagsApiClient.getTag(Integer.parseInt(id));
                 DoortagsApiClient.sendMessage(message,
                         app.getPrefs().getString(SettingsActivity.PREF_PHONE, ""),
-                        tag.getId(),
+                        Integer.parseInt(id),
                         app.getPrefs().getString(SettingsActivity.PREF_NAME, ""));
 
             } catch (IOException e) {
@@ -128,8 +127,8 @@ public class SendMessageFragment extends DialogFragment {
             if (!result.getFirst()) {
                 Toast.makeText(ctx, result.getSecond(), Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(ctx, "Message Sent", Toast.LENGTH_LONG).show();
                 parent.dismiss();
+                Toast.makeText(ctx, "Message Sent", Toast.LENGTH_LONG).show();
             }
         }
     }
