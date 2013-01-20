@@ -13,7 +13,7 @@ public class DeleteJsonResponse extends JsonResponse {
 
     public static DeleteJsonResponse makeRequest(String resource, String contents)
             throws IOException {
-        Tuple<Integer, String> result = ApiUtils.requestHelper("POST", resource,
+        Tuple<Integer, String> result = ApiUtils.requestHelper("DELETE", resource,
                 contents);
         return new DeleteJsonResponse(result.getFirst(), result.getSecond());
     }

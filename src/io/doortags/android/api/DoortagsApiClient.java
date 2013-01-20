@@ -71,7 +71,21 @@ public class DoortagsApiClient {
                 throw new DoortagsApiException(message);
         }
     }
-
+    
+    public void sendMessage (String message, String phoneNumber, int tag_code, String name) 
+    		throws IOException, DoortagsApiException {
+    	Params params = Params.start("message", message)
+    						  .addParam("number_to_send_to", phoneNumber)
+    						  .addParam("tag_code", tag_code)
+    						  .addParam("name", name);
+    	JsonResponse response = PostJsonResponse.makeAuthRequest("/message", authToken, params, null);
+    	if (response.getResponseCode() == HTTP_OK) {
+    		return;
+    	}
+    	
+    	defaultErrorHandler(response);
+    }
+    
     private class AuthData {
         private String token;
         AuthData() {};
@@ -85,5 +99,22 @@ public class DoortagsApiClient {
         JsonResponse response = PostJsonResponse.makeAuthRequest("/auth/invalidate",
                 authToken, null, null);
         return response.getResponseCode() == HTTP_OK;
+    }
+    
+    public Tag getTag(int tagCode) throws IOException, DoortagsApiException {
+    	JsonResponse response = GetJsonResponse.makeAuthRequest("/tags/show_by_code/" + tagCode, authToken, null);
+    	
+    	if (response.getResponseCode() == HTTP_OK) {
+    		Tag tag = response.fromJson(Tag.class);
+    		return tag;
+    	}
+    	
+    	switch (response.responseCode) {
+    	case HTTP_NOT_FOUND:
+    		return null;
+    	default:
+    		defaultErrorHandler(response);
+    		return null;
+    	}
     }
 }
