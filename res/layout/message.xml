@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="To: "
+            android:id="@+id/sendmsg_to"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location: "
+            android:id="@+id/sendmsg_preloc"
+            android:layout_below="@id/sendmsg_to"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Client Name"
+            android:id="@+id/sendmsg_name"
+            android:layout_toRightOf="@id/sendmsg_to"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Client Location"
+            android:id="@+id/sendmsg_location"
+            android:layout_below="@id/sendmsg_name"
+            android:layout_toRightOf="@id/sendmsg_preloc"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Enter a message to send. . ."
+            android:layout_below="@id/sendmsg_preloc"
+            android:enabled="false"
+            android:id="@+id/sendmsg_text" android:layout_gravity="center"/>
+</RelativeLayout>

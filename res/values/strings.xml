@@ -31,4 +31,6 @@
     <string name="no_tags_label">You have no tags</string>
     <string name="touch_tag_label">Please Touch to NFC Tag.</string>
     <string name="refresh_title">Refresh</string>
+    <string name="send_button_title">Send</string>
+    <string name="cancel_button_title">Cancel</string>
 </resources>
