@@ -84,7 +84,7 @@ public class WriteTagActivity extends NfcWriterActivity {
         Toast.makeText(this.getApplicationContext(), "Detected Tag", Toast.LENGTH_SHORT).show();
 
         try {
-            NdefMessage msgNFC = prepareMessage(8);
+            NdefMessage msgNFC = prepareMessage(2);
             //createTextMessage("test",Locale.ENGLISH,true)
             NfcUtils.writeNdefTag(msgNFC, tag);
             Toast.makeText(this.getApplicationContext(), "Successfully wrote to Tag", Toast.LENGTH_SHORT).show();

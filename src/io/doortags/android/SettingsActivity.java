@@ -1,12 +1,13 @@
 package io.doortags.android;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
 public class SettingsActivity extends Activity {
     public static final String PREF_NAME = "pref_name";
-    public static final String PREF_PHONE = "pref_phone";
+    public static final String PREF_PHONE = "pref_number";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,6 +16,7 @@ public class SettingsActivity extends Activity {
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
+
     }
 
     public static class SettingsFragment extends PreferenceFragment {

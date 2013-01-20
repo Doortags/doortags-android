@@ -1,12 +1,10 @@
 package io.doortags.android;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.app.*;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.util.Log;
@@ -97,6 +95,21 @@ public class MainActivity extends NdefReaderActivity {
     }
     @Override
     protected void onNdefMessage(NdefMessage ndefMessage) {
-        Toast.makeText(this.getApplicationContext(), "Detected Tag" + ndefMessage.toString() , Toast.LENGTH_LONG).show();
+
+      NdefRecord[] msgarray = ndefMessage.getRecords();
+      int id = Integer.parseInt(new String(msgarray[0].getPayload()));
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        // Create and show the dialog.
+        DialogFragment newFragment = SendMessageFragment.newInstance(id);
+        newFragment.show(ft, "dialog");
+
+
     }
 }
