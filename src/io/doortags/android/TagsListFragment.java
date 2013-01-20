@@ -6,17 +6,17 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 import io.doortags.android.api.DoortagsApiClient;
 import io.doortags.android.api.DoortagsApiException;
 import io.doortags.android.api.Tag;
 
 import java.io.IOException;
-import java.util.List;
 
 public class TagsListFragment extends ListFragment {
     public static final String TAG = TagsListFragment.class.getSimpleName();
-    private List<Tag> tags;
+    private ArrayAdapter<Tag> adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,14 +52,20 @@ public class TagsListFragment extends ListFragment {
                 return true;
             case R.id.add_tag_item:
                 return true;
-            case R.id.write_tag_item:
-                startActivity(new Intent(getActivity(), WriteTagActivity.class));
-                return true;
             case R.id.remove_tag_item:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        Tag tag = adapter.getItem(position);
+        Intent intent = new Intent(getActivity(), WriteTagActivity.class);
+        intent.putExtra("id", tag.getId());
+        intent.putExtra("location", tag.getLocation());
+        startActivity(intent);
     }
 
     private class GetTagsTask extends AsyncTask<DoortagsApiClient, Void, Tag[]> {
@@ -89,7 +95,7 @@ public class TagsListFragment extends ListFragment {
             super.onPostExecute(tags);
             if (tags == null) return;
 
-            ArrayAdapter<Tag> adapter = new ArrayAdapter<Tag>(getActivity(),
+            adapter = new ArrayAdapter<Tag>(getActivity(),
                     android.R.layout.simple_list_item_1, tags);
             if (getListAdapter() != null) {
                 setListAdapter(adapter);

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.nfc.*;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 import io.doortags.android.utils.Utils;
 import org.danielge.nfcskeleton.NfcUtils;
@@ -21,16 +22,24 @@ import java.util.Locale;
  * To change this template use File | Settings | File Templates.
  */
 public class WriteTagActivity extends NfcWriterActivity {
+    private int tagId;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nfc_write);
+
+        Intent intent = getIntent();
+        tagId = intent.getIntExtra("id", -1);
+        String location = intent.getStringExtra("location");
+
+        TextView tagInfo = (TextView) findViewById(R.id.tag_info);
+        tagInfo.setText("Tag location: " + location);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         enableWriteTagMode();
-
     }
 
     @Override
@@ -84,10 +93,11 @@ public class WriteTagActivity extends NfcWriterActivity {
         Toast.makeText(this.getApplicationContext(), "Detected Tag", Toast.LENGTH_SHORT).show();
 
         try {
-            NdefMessage msgNFC = prepareMessage(2);
+            NdefMessage msgNFC = prepareMessage(tagId);
             //createTextMessage("test",Locale.ENGLISH,true)
             NfcUtils.writeNdefTag(msgNFC, tag);
             Toast.makeText(this.getApplicationContext(), "Successfully wrote to Tag", Toast.LENGTH_SHORT).show();
+            finish();
         }
         catch (FormatException e) {
             Log.i("WriteToNFC", "Writing to NDEF failed in WriteToNFC");

@@ -147,8 +147,8 @@ public class DoortagsApiClient {
 
 
     public static void main (String[] args) throws IOException, DoortagsApiException {
-        DoortagsApiClient client = DoortagsApiClient.authorize("CHANGE_THIS_EMAIL",
-                "CHANGE_THIS_PASSWORD");
+        DoortagsApiClient client = DoortagsApiClient.authorize("daniel@example.com",
+                "password");
         Tag tag = client.getTag(2);
         System.out.println(tag.getLocation());
     }

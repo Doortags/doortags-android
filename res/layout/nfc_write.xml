@@ -5,10 +5,14 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent">
 
+    <TextView android:id="@+id/tag_info"
+              android:layout_height="wrap_content"
+              android:layout_width="fill_parent" />
+
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Please Touch to NFC Tag."
+            android:text="@string/touch_tag_label"
             android:id="@+id/textView" android:layout_gravity="center"
             style="@android:style/TextAppearance.DeviceDefault.Medium"/>
 </LinearLayout>
