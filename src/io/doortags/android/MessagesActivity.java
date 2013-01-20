@@ -3,11 +3,19 @@ package io.doortags.android;
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.SpinnerAdapter;
+import org.danielge.nfcskeleton.NfcUtils;
+import org.danielge.nfcskeleton.NfcWriterActivity;
+import org.danielge.nfcskeleton.NfcUtils.NdefMessageTooLongException;
+import org.danielge.nfcskeleton.NfcUtils.TagNotWritableException;
 
 public class MessagesActivity extends Activity {
     /**
@@ -15,8 +23,19 @@ public class MessagesActivity extends Activity {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        final Button writeButton = (Button) findViewById(R.id.write);
+     
+        writeButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	Intent myIntent = new Intent(MessagesActivity.this, WriteToNFC.class);
+            	startActivity(myIntent);
+            }
+        });
+        
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         
@@ -43,9 +62,9 @@ public class MessagesActivity extends Activity {
         	};
         
         actionBar.setListNavigationCallbacks(mSpinnerAdapter, mNavigationCallback);
-        
-        
-        
-        
     }
+
+    
+   
 }
+
