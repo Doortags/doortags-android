@@ -29,6 +29,7 @@ public class SendProgressFragment extends DialogFragment {
     private int id;
     private String clientName;
     private String clientLocation;
+    private boolean runOnce = true;
 
     static SendProgressFragment newInstance(int id) {
         SendProgressFragment f = new SendProgressFragment();
@@ -44,26 +45,39 @@ public class SendProgressFragment extends DialogFragment {
         id = getArguments().getInt("id");
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
+
         final View view = inflater.inflate(R.layout.sendprogress_fragment, container, false);
         Button cancel = (Button) view.findViewById(R.id.prog_cancel);
-        ProgressBar progress = (ProgressBar) view.findViewById(R.id.prog_bar);
 
         final SendProgressFragment that = this;
 
         String identifier =  String.valueOf(id);
         Activity act = that.getActivity();
+
         DoortagsApp app = (DoortagsApp) act.getApplication();
-        (new SendProgressTask(act, app)).execute(identifier);
+
+        if(runOnce){
+            (new SendProgressTask(act, app)).execute(identifier);
+            runOnce = false;
+        }
+        else {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.remove(SendProgressFragment.this).commit();
+
+        }
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 that.dismiss();
             }
+
         });
+
         return view;
     }
 
@@ -112,19 +126,18 @@ public class SendProgressFragment extends DialogFragment {
 
             } else {
                 parent.dismiss();
-
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 Fragment prev = getFragmentManager().findFragmentByTag("dialog");
                 if (prev != null) {
                     ft.remove(prev);
                 }
                 ft.addToBackStack(null);
-
                 // Create and show the dialog.
                 DialogFragment newFragment = SendMessageFragment.newInstance(id,clientName,clientLocation);
                 newFragment.show(ft, "dialog");
 
-            }
+
+             }
         }
     }
 
