@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class Utils {
     public static final String MIME_JSON = "application/json";
     public static final String MIME_FORM = "application/x-www-form-urlencoded";
+    public static final String MIME = "application/io.doortags.android";
 
     public static final String SENDER_ID = "343180867553";
 

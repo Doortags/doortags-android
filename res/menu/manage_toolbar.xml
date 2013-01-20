@@ -9,7 +9,7 @@
           android:showAsAction="ifRoom" />
     <item android:id="@+id/write_tag_item"
           android:title="@string/write_tag_title"
-          android:showAsAction="ifRoom|withText" />
+          android:showAsAction="ifRoom" />
 
     <item android:id="@+id/prefs_item"
           android:title="@string/prefs_item_title"
