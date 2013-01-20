@@ -2,10 +2,6 @@ package io.doortags.android.api;
 
 import java.io.IOException;
 
-import org.json.*;
-
-import com.google.gson.JsonParser;
-
 import static io.doortags.android.api.ApiUtils.Params;
 
 public class DoortagsApiClient {
