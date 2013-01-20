@@ -5,9 +5,9 @@
               android:layout_height="fill_parent"
         >
 
-    <fragment android:id="@+id/reading_fragment"
-              android:layout_height="fill_parent"
-              android:layout_width="fill_parent"
-              android:name="io.doortags.android.ReadingFragment" />
+    <FrameLayout android:id="@+id/fragment_container"
+                 android:layout_height="fill_parent"
+                 android:layout_width="fill_parent" >
+    </FrameLayout>
 </LinearLayout>
 
