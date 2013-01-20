@@ -29,7 +29,8 @@ public class DoortagsApiClient {
         JsonStatusResponse () {};
     }
 
-    private void defaultErrorHandler (JsonResponse response) throws DoortagsApiException {
+    private static void defaultErrorHandler (JsonResponse response) throws
+            DoortagsApiException {
         JsonStatusResponse jsr = response.fromJson(JsonStatusResponse.class);
 
         switch (jsr.status) {
@@ -101,8 +102,8 @@ public class DoortagsApiClient {
         return response.getResponseCode() == HTTP_OK;
     }
     
-    public Tag getTag(int tagCode) throws IOException, DoortagsApiException {
-    	JsonResponse response = GetJsonResponse.makeAuthRequest("/tags/" + tagCode, authToken, null);
+    public static Tag getTag(int tagCode) throws IOException, DoortagsApiException {
+    	JsonResponse response = GetJsonResponse.makeRequest("/tags/" + tagCode);
     	
     	if (response.getResponseCode() == HTTP_OK) {
     		Tag tag = response.fromJson(Tag.class);
