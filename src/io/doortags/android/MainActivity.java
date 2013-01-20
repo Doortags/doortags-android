@@ -125,7 +125,7 @@ public class MainActivity extends NdefReaderActivity {
         ft.addToBackStack(null);
 
         // Create and show the dialog.
-        DialogFragment newFragment = SendMessageFragment.newInstance(id);
+        DialogFragment newFragment = SendProgressFragment.newInstance(id);
         newFragment.show(ft, "dialog");
 
 
