@@ -18,4 +18,9 @@ public class Tag {
     public String getLocation() {
         return location;
     }
+
+    @Override
+    public String toString() {
+        return location;
+    }
 }
