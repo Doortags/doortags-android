@@ -75,9 +75,9 @@ public class DoortagsApiClient {
     public void sendMessage (String message, String phoneNumber, int tag_code, String name) 
     		throws IOException, DoortagsApiException {
     	Params params = Params.start("message", message)
-    						  .addParam("number_to_send_to", phoneNumber)
-    						  .addParam("tag_code", tag_code)
-    						  .addParam("name", name);
+    						  .addParam("tag_id", tag_code)
+    						  .addParam("name", String.format("%s (%s)", name,
+                                      phoneNumber));
     	JsonResponse response = PostJsonResponse.makeAuthRequest("/message", authToken, params, null);
     	if (response.getResponseCode() == HTTP_OK) {
     		return;
@@ -102,7 +102,7 @@ public class DoortagsApiClient {
     }
     
     public Tag getTag(int tagCode) throws IOException, DoortagsApiException {
-    	JsonResponse response = GetJsonResponse.makeAuthRequest("/tags/show_by_code/" + tagCode, authToken, null);
+    	JsonResponse response = GetJsonResponse.makeAuthRequest("/tags/" + tagCode, authToken, null);
     	
     	if (response.getResponseCode() == HTTP_OK) {
     		Tag tag = response.fromJson(Tag.class);
@@ -116,5 +116,12 @@ public class DoortagsApiClient {
     		defaultErrorHandler(response);
     		return null;
     	}
+    }
+
+    public static void main (String[] args) throws IOException, DoortagsApiException {
+        DoortagsApiClient client = DoortagsApiClient.authorize("CHANGE_THIS_EMAIL",
+                "CHANGE_THIS_PASSWORD");
+        Tag tag = client.getTag(2);
+        System.out.println(tag.getLocation());
     }
 }
