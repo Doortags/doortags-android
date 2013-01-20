@@ -4,9 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
 
@@ -65,16 +63,5 @@ public class MainActivity extends Activity {
         };
 
         actionBar.setListNavigationCallbacks(mSpinnerAdapter, mNavigationCallback);
-    }
-
-    @Override
-    public boolean onMenuItemSelected(int featureId, MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.prefs_item:
-                startActivity(new Intent(this, SettingsActivity.class));
-                return true;
-            default:
-                return super.onMenuItemSelected(featureId, item);
-        }
     }
 }

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/add_tag"
+    <item android:id="@+id/add_tag_item"
           android:title="@string/add_tag_title"
           android:showAsAction="ifRoom" />
-    <item android:id="@+id/remove_tag"
+    <item android:id="@+id/remove_tag_item"
           android:title="@string/remove_tag_title"
           android:showAsAction="ifRoom" />
-    <item android:id="@+id/write_tag"
+    <item android:id="@+id/write_tag_item"
           android:title="@string/write_tag_title"
           android:showAsAction="ifRoom|withText" />
 

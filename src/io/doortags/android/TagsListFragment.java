@@ -1,6 +1,7 @@
 package io.doortags.android;
 
 import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
 
@@ -28,5 +29,22 @@ public class TagsListFragment extends ListFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.manage_toolbar, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.prefs_item:
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                return true;
+            case R.id.add_tag_item:
+                return true;
+            case R.id.write_tag_item:
+                return true;
+            case R.id.remove_tag_item:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
