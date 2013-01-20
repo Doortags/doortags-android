@@ -2,6 +2,10 @@ package io.doortags.android.api;
 
 import java.io.IOException;
 
+import org.json.*;
+
+import com.google.gson.JsonParser;
+
 import static io.doortags.android.api.ApiUtils.Params;
 
 public class DoortagsApiClient {
@@ -87,6 +91,31 @@ public class DoortagsApiClient {
     	defaultErrorHandler(response);
     }
     
+    public Tag[] getTagsOfUser() throws IOException, DoortagsApiException{
+    	JsonResponse response = GetJsonResponse.makeAuthRequest("/tags", authToken, null);
+    	
+    	if (response.getResponseCode() == HTTP_OK) {
+    		TagInfo userTags = response.fromJson(TagInfo.class);
+    		return userTags.tags;
+    	}
+    	
+    	switch (response.responseCode) {
+    	case HTTP_NOT_FOUND:
+    		return null;
+    	default:
+    		defaultErrorHandler(response);
+    		return null;
+    	}
+    }
+    
+    private static class TagInfo{
+    	private int status;
+    	private Tag[] tags;
+    	
+    	TagInfo() {}
+    }
+    
+    
     private class AuthData {
         private String token;
         AuthData() {};
@@ -118,6 +147,7 @@ public class DoortagsApiClient {
     		return null;
     	}
     }
+
 
     public static void main (String[] args) throws IOException, DoortagsApiException {
         DoortagsApiClient client = DoortagsApiClient.authorize("CHANGE_THIS_EMAIL",
