@@ -40,6 +40,7 @@ public class TagsListFragment extends ListFragment {
             case R.id.add_tag_item:
                 return true;
             case R.id.write_tag_item:
+                startActivity(new Intent(getActivity(), WriteTagActivity.class));
                 return true;
             case R.id.remove_tag_item:
                 return true;
