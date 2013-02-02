@@ -1,8 +1,8 @@
 package io.doortags.android.api;
 
-import java.io.IOException;
+import io.doortags.android.utils.Tuple;
 
-import static io.doortags.android.utils.Utils.Tuple;
+import java.io.IOException;
 
 public class PutJsonResponse extends JsonResponse {
     public PutJsonResponse(int responseCode, String body) {

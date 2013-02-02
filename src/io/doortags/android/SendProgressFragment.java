@@ -13,7 +13,7 @@ import android.widget.Toast;
 import io.doortags.android.api.DoortagsApiClient;
 import io.doortags.android.api.DoortagsApiException;
 import io.doortags.android.api.Tag;
-import io.doortags.android.utils.Utils;
+import io.doortags.android.utils.Tuple;
 
 import java.io.IOException;
 
@@ -82,7 +82,7 @@ public class SendProgressFragment extends DialogFragment {
     }
 
     private class SendProgressTask extends AsyncTask<String, Void,
-            Utils.Tuple<Boolean, String>> {
+            Tuple<Boolean, String>> {
         private final Context ctx;
         private final SendProgressFragment parent;
         private final DoortagsApp app;
@@ -96,7 +96,7 @@ public class SendProgressFragment extends DialogFragment {
         }
 
         @Override
-        protected Utils.Tuple<Boolean, String> doInBackground(String... params) {
+        protected Tuple<Boolean, String> doInBackground(String... params) {
             String id = params[0];
             clientName = "Client Name";
             clientLocation = "Client Location";
@@ -109,17 +109,17 @@ public class SendProgressFragment extends DialogFragment {
 
 
             } catch (IOException e) {
-                return new Utils.Tuple<Boolean, String>(false, "Please check your connection");
+                return new Tuple<Boolean, String>(false, "Please check your connection");
             } catch (DoortagsApiException e) {
-                return new Utils.Tuple<Boolean, String>(false,
+                return new Tuple<Boolean, String>(false,
                         "Invalid ID used");
             }
 
-            return new Utils.Tuple<Boolean, String>(true, null);
+            return new Tuple<Boolean, String>(true, null);
         }
 
         @Override
-        protected void onPostExecute(Utils.Tuple<Boolean, String> result) {
+        protected void onPostExecute(Tuple<Boolean, String> result) {
             if (!result.getFirst()) {
                 Toast.makeText(ctx, "Failed to Retrieve Server Info", Toast.LENGTH_SHORT).show();
                 parent.dismiss();

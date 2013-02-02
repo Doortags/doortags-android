@@ -1,7 +1,8 @@
 package io.doortags.android.api;
 
+import io.doortags.android.utils.Tuple;
+
 import java.io.IOException;
-import static io.doortags.android.utils.Utils.Tuple;
 
 public class DeleteJsonResponse extends JsonResponse {
     private int responseCode;

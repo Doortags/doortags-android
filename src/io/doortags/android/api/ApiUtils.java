@@ -1,5 +1,6 @@
 package io.doortags.android.api;
 
+import io.doortags.android.utils.Tuple;
 import io.doortags.android.utils.Utils;
 
 import java.io.*;
@@ -77,7 +78,7 @@ class ApiUtils {
         return res;
     }
 
-    public static Utils.Tuple<Integer, String> requestHelper (String method, String resource,
+    public static Tuple<Integer, String> requestHelper (String method, String resource,
                                                         String contents) throws
             IOException {
         contents = (contents == null) ? "" : contents;
@@ -100,7 +101,7 @@ class ApiUtils {
             String responseBody = Utils.inputStreamToString(in);
             in.close();
 
-            return new Utils.Tuple<Integer, String>(connection.getResponseCode(), responseBody);
+            return new Tuple<Integer, String>(connection.getResponseCode(), responseBody);
         } finally {
             connection.disconnect();
         }

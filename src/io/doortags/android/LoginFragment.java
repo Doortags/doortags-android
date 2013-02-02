@@ -14,10 +14,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import io.doortags.android.api.DoortagsApiException;
+import io.doortags.android.utils.Tuple;
 
 import java.io.IOException;
-
-import static io.doortags.android.utils.Utils.Tuple;
 
 public class LoginFragment extends DialogFragment {
     @Override

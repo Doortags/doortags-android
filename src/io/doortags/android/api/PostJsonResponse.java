@@ -1,9 +1,10 @@
 package io.doortags.android.api;
 
+import io.doortags.android.utils.Tuple;
+
 import java.io.IOException;
 
 import static io.doortags.android.api.ApiUtils.Params;
-import static io.doortags.android.utils.Utils.Tuple;
 
 class PostJsonResponse extends JsonResponse{
     private int responseCode;
