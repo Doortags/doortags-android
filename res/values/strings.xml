@@ -16,7 +16,7 @@
     <string name="pref_number_summary">Your phone number</string>
 
     <!-- ReadingFragment -->
-    <string name="read_hint">Place your device near the tag to read</string>
+    <string name="read_hint">Place your device on the tag to read</string>
     <string name="card_header">My card</string>
     <string name="card_name_label">Name</string>
     <string name="card_phone_label">Phone number</string>

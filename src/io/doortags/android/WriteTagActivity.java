@@ -32,7 +32,7 @@ public class WriteTagActivity extends NfcWriterActivity {
         tagId = intent.getIntExtra("id", -1);
         String location = intent.getStringExtra("location");
 
-        TextView tagInfo = (TextView) findViewById(R.id.tag_info);
+        TextView tagInfo = (TextView) findViewById(R.id.location);
         tagInfo.setText("Tag location: " + location);
     }
 
