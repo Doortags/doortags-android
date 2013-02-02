@@ -19,10 +19,4 @@
             style="@android:style/Widget.Holo.ProgressBar.Horizontal"
             android:indeterminate="true"
             android:id="@+id/prog_bar"/>
-
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel_button_title"
-            android:id="@+id/prog_cancel"/>
 </LinearLayout>
