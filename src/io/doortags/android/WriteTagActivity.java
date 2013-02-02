@@ -110,9 +110,6 @@ public class WriteTagActivity extends NfcWriterActivity {
 
     @Override
     protected void onTagDiscovered(Tag tag) {
-
-        Toast.makeText(this.getApplicationContext(), "Detected Tag", Toast.LENGTH_SHORT).show();
-
         try {
             NdefMessage msgNFC = prepareMessage(tagId);
             //createTextMessage("test",Locale.ENGLISH,true)
