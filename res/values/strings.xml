@@ -22,6 +22,7 @@
     <string name="card_phone_label">Phone number</string>
 
     <!-- LoginFragment -->
+    <string name="login_title">Log in to continue</string>
     <string name="login_password_label">Password</string>
     <string name="login_email_label">Email</string>
     <string name="login_submit_text">Submit</string>
@@ -31,12 +32,17 @@
     <string name="no_tags_label">You have no tags</string>
     <string name="touch_tag_label">Please Touch to NFC Tag.</string>
     <string name="refresh_title">Refresh</string>
-    <string name="send_button_title">Send</string>
-    <string name="cancel_button_title">Cancel</string>
-    <string name="fetch_tag_progress_text">Fetching tag information...</string>
+
+    <!-- Send message -->
+    <string name="fetch_tag_progress_text">Fetching tag information…</string>
     <string name="message_to_label">To:</string>
     <string name="message_location_label">Location:</string>
     <string name="message_hint">Enter your message</string>
-    <string name="submit_button">Submit</string>
     <string name="tag_info_header">Tag information</string>
+
+    <!-- Buttons -->
+    <string name="send_button_title">Send</string>
+    <string name="cancel_button_title">Cancel</string>
+    <string name="submit_button">Submit</string>
+
 </resources>

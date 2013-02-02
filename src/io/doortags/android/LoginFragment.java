@@ -1,15 +1,12 @@
 package io.doortags.android;
 
-import android.app.Activity;
-import android.app.DialogFragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.app.*;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,36 +16,45 @@ import io.doortags.android.utils.Tuple;
 import java.io.IOException;
 
 public class LoginFragment extends DialogFragment {
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
-            savedInstanceState) {
-        final View view = inflater.inflate(R.layout.login_fragment, container, false);
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+        final View view = inflater.inflate(R.layout.login_fragment, null);
 
-        Button submit = (Button) view.findViewById(R.id.submit_button);
-        Button cancel = (Button) view.findViewById(R.id.cancel_button);
+        final AlertDialog d = new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.login_title)
+                .setView(view)
+                .setPositiveButton(R.string.submit_button,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Do nothing
+                            }
+                        })
+                .setNegativeButton(R.string.cancel_button_title, null).create();
 
-        final LoginFragment that = this;
-        submit.setOnClickListener(new View.OnClickListener() {
+        d.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
-            public void onClick(View v) {
-                String email    = ((TextView) view.findViewById(R.id.login_email))
-                        .getText().toString();
-                String password = ((TextView) view.findViewById(R.id.login_password))
-                        .getText().toString();
+            public void onShow(DialogInterface dialog) {
+                Button b = d.getButton(AlertDialog.BUTTON_POSITIVE);
+                b.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String email    = ((TextView) view.findViewById(R.id.login_email))
+                                .getText().toString();
+                        String password = ((TextView) view.findViewById(R.id.login_password))
+                                .getText().toString();
 
-                Activity act = that.getActivity();
-                DoortagsApp app = (DoortagsApp) act.getApplication();
-                (new LoginTask(act, app)).execute(email, password);
+                        Activity act = getActivity();
+                        DoortagsApp app = (DoortagsApp) act.getApplication();
+                        (new LoginTask(act, app)).execute(email, password);
+                    }
+                });
             }
         });
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                that.dismiss();
-            }
-        });
 
-        return view;
+        return d;
     }
 
     private class LoginTask extends AsyncTask<String, Void,
@@ -88,13 +94,14 @@ public class LoginFragment extends DialogFragment {
                 Toast.makeText(ctx, result.getSecond(), Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(ctx, "Login successful", Toast.LENGTH_SHORT).show();
-                parent.dismiss();
 
                 FragmentManager manager = getActivity().getFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 transaction.replace(R.id.fragment_container,
                         new TagsListFragment(), MainActivity.MANAGE_ID);
                 transaction.commit();
+
+                parent.dismiss();
             }
 
 
