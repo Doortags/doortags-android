@@ -1,14 +1,16 @@
 package io.doortags.android;
 
-import android.app.*;
+import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 import io.doortags.android.api.DoortagsApiClient;
 import io.doortags.android.api.DoortagsApiException;
@@ -29,7 +31,6 @@ public class SendProgressFragment extends DialogFragment {
     private int id;
     private String clientName;
     private String clientLocation;
-    private boolean runOnce = true;
 
     static SendProgressFragment newInstance(int id) {
         SendProgressFragment f = new SendProgressFragment();
@@ -42,6 +43,7 @@ public class SendProgressFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         id = getArguments().getInt("id");
     }
 
@@ -55,30 +57,49 @@ public class SendProgressFragment extends DialogFragment {
 
         final SendProgressFragment that = this;
 
-        String identifier =  String.valueOf(id);
-        Activity act = that.getActivity();
-
-        DoortagsApp app = (DoortagsApp) act.getApplication();
-
-        if(runOnce){
-            (new SendProgressTask(act, app)).execute(identifier);
-            runOnce = false;
-        }
-        else {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.remove(SendProgressFragment.this).commit();
-
-        }
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                that.dismiss();
+                that.getDialog().cancel();
             }
 
         });
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        final SendProgressFragment that = this;
+        Activity act = that.getActivity();
+        DoortagsApp app = (DoortagsApp) act.getApplication();
+
+        String identifier =  String.valueOf(id);
+        (new SendProgressTask(act, app)).execute(identifier);
+
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+        ft.commit();
+
+        Intent intent = new Intent(getActivity(), MessageActivity.class)
+                .putExtra("id", id)
+                .putExtra("name", clientName)
+                .putExtra("location", clientLocation);
+
+        startActivity(intent);
     }
 
     private class SendProgressTask extends AsyncTask<String, Void,
@@ -122,21 +143,10 @@ public class SendProgressFragment extends DialogFragment {
         protected void onPostExecute(Tuple<Boolean, String> result) {
             if (!result.getFirst()) {
                 Toast.makeText(ctx, "Failed to Retrieve Server Info", Toast.LENGTH_SHORT).show();
-                parent.dismiss();
+                parent.getDialog().cancel();
 
             } else {
                 parent.dismiss();
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-                if (prev != null) {
-                    ft.remove(prev);
-                }
-                ft.addToBackStack(null);
-                // Create and show the dialog.
-                DialogFragment newFragment = SendMessageFragment.newInstance(id,clientName,clientLocation);
-                newFragment.show(ft, "dialog");
-
-
              }
         }
     }

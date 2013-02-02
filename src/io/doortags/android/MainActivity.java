@@ -111,11 +111,15 @@ public class MainActivity extends NdefReaderActivity {
 
         return filter;
     }
+
+
+
+
     @Override
     protected void onNdefMessage(NdefMessage ndefMessage) {
 
-      NdefRecord[] msgarray = ndefMessage.getRecords();
-      int id = Integer.parseInt(new String(msgarray[0].getPayload()));
+        NdefRecord[] msgarray = ndefMessage.getRecords();
+        int id = Integer.parseInt(new String(msgarray[0].getPayload()));
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         Fragment prev = getFragmentManager().findFragmentByTag("dialog");

@@ -6,20 +6,23 @@
               android:layout_height="fill_parent"
               android:layout_marginTop="15dp">
 
-    <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/prog_bar" android:layout_gravity="center"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Getting Server Info . . ."
+            android:text="@string/fetch_tag_progress_text"
             android:id="@+id/prog_waittext"
-            android:layout_gravity="center"
             android:layout_margin="5dp"/>
+
+    <ProgressBar
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.Holo.ProgressBar.Horizontal"
+            android:indeterminate="true"
+            android:id="@+id/prog_bar"/>
+
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"
-            android:id="@+id/prog_cancel" android:layout_gravity="center"/>
+            android:text="@string/cancel_button_title"
+            android:id="@+id/prog_cancel"/>
 </LinearLayout>

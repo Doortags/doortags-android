@@ -4,34 +4,52 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <TextView
+            android:id="@+id/sendmsg_to"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="To: "
-            android:id="@+id/sendmsg_to"/>
+            android:layout_alignParentLeft="true"
+            android:text="@string/message_to_label"/>
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Location: "
             android:id="@+id/sendmsg_preloc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="@string/message_location_label"
             android:layout_below="@id/sendmsg_to"/>
+
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Client Name"
             android:id="@+id/sendmsg_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_toRightOf="@id/sendmsg_to"/>
+
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Client Location"
             android:id="@+id/sendmsg_location"
-            android:layout_below="@id/sendmsg_name"
-            android:layout_toRightOf="@id/sendmsg_preloc"/>
-    <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter a message to send. . ."
-            android:layout_below="@id/sendmsg_preloc"
-            android:enabled="false"
-            android:id="@+id/sendmsg_text" android:layout_gravity="center"/>
+            android:layout_below="@id/sendmsg_name"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@id/sendmsg_preloc"/>
+
+    <EditText
+            android:id="@+id/sendmsg_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.Holo.Light.EditText"
+
+            android:hint="@string/message_hint"
+            android:lines="4"
+            android:gravity="top"
+
+            android:layout_below="@id/sendmsg_preloc"/>
+
+    <TextView
+        android:id="@+id/char_count"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textColor="@android:color/primary_text_light"
+        android:layout_below="@id/sendmsg_text" />
+
 </RelativeLayout>

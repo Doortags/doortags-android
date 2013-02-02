@@ -33,4 +33,9 @@
     <string name="refresh_title">Refresh</string>
     <string name="send_button_title">Send</string>
     <string name="cancel_button_title">Cancel</string>
+    <string name="fetch_tag_progress_text">Fetching tag information...</string>
+    <string name="message_to_label">To:</string>
+    <string name="message_location_label">Location:</string>
+    <string name="message_hint">Enter your message</string>
+    <string name="submit_button">Submit</string>
 </resources>

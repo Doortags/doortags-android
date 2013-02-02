@@ -9,6 +9,8 @@ import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -30,9 +32,11 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 public class MessageActivity extends Activity {
-    private TextView nameText, locationText;
-    private EditText messageText;
+    private TextView nameText, locationText, charCountText;
+    private EditText messageBox;
     private int id;
+
+    private static final int CHAR_LIMIT = 140;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,9 +44,38 @@ public class MessageActivity extends Activity {
 
         nameText = (TextView) findViewById(R.id.sendmsg_name);
         locationText = (TextView) findViewById(R.id.sendmsg_location);
-        messageText = (EditText) findViewById(R.id.sendmsg_text);
+        charCountText = (TextView) findViewById(R.id.char_count);
+        messageBox = (EditText) findViewById(R.id.sendmsg_text);
+
+        charCountText.setText("140");
 
         onIntent(getIntent());
+
+        messageBox.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                int count = CHAR_LIMIT - s.length();
+                if (count <= 20 && count > 10) {
+                    charCountText.setTextColor(getResources().getColor(R.color.dark_red));
+                } else if (count <= 10) {
+                    charCountText.setTextColor(getResources().getColor(R.color.light_red));
+                } else {
+                    charCountText.setTextColor(
+                            getResources().getColor(android.R.color.primary_text_light));
+                }
+
+
+                charCountText.setText(String.valueOf(count));
+            }
+        });
     }
 
     @Override
@@ -68,6 +101,14 @@ public class MessageActivity extends Activity {
             NdefRecord[] records = msgs[0].getRecords();
             String id = new String(records[0].getPayload());
             (new SendProgressTask(this, (DoortagsApp) getApplication())).execute(id);
+        } else {
+            int id = intent.getIntExtra("id", 0);
+            String name = intent.getStringExtra("name");
+            String location = intent.getStringExtra("location");
+
+            this.id = id;
+            this.nameText.setText(name);
+            this.locationText.setText(location);
         }
     }
 
@@ -78,9 +119,9 @@ public class MessageActivity extends Activity {
                 finish();
                 return true;
             case R.id.send_button:
-                if (messageText.isEnabled()) {
+                if (messageBox.isEnabled()) {
                     (new SendMessageTask(this, (DoortagsApp) getApplication()))
-                            .execute(String.valueOf(id), messageText.getEditableText()
+                            .execute(String.valueOf(id), messageBox.getEditableText()
                                     .toString());
                 }
                 return true;
@@ -99,8 +140,8 @@ public class MessageActivity extends Activity {
             this.ctx = ctx;
             this.app = app;
 
-            clientName = "Client Name";
-            clientLocation = "Client Location";
+            clientName = "";
+            clientLocation = "";
         }
 
         @Override
@@ -139,7 +180,7 @@ public class MessageActivity extends Activity {
             nameText.setText(clientName);
             locationText.setText(clientLocation);
             id = tag.getId();
-            messageText.setEnabled(true);
+            messageBox.setEnabled(true);
         }
     }
 
