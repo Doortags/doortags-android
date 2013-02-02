@@ -8,6 +8,7 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
@@ -112,9 +113,6 @@ public class MainActivity extends NdefReaderActivity {
         return filter;
     }
 
-
-
-
     @Override
     protected void onNdefMessage(NdefMessage ndefMessage) {
 
@@ -133,5 +131,9 @@ public class MainActivity extends NdefReaderActivity {
         DialogFragment newFragment = SendProgressFragment.newInstance(id);
         newFragment.show(ft, "dialog");
 
+    }
+
+    public void openCard (View _) {
+        startActivity(new Intent(this, SettingsActivity.class));
     }
 }

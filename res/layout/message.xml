@@ -1,53 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              style="@style/layout"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <TextView
-            android:id="@+id/sendmsg_to"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="@string/message_to_label"/>
-    <TextView
-            android:id="@+id/sendmsg_preloc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="@string/message_location_label"
-            android:layout_below="@id/sendmsg_to"/>
 
-    <TextView
-            android:id="@+id/sendmsg_name"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@id/sendmsg_to"/>
+    <LinearLayout
+        android:id="@+id/tag_card"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        style="@style/card">
 
-    <TextView
-            android:id="@+id/sendmsg_location"
-            android:layout_width="fill_parent"
+        <TextView
             android:layout_height="wrap_content"
-            android:layout_below="@id/sendmsg_name"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@id/sendmsg_preloc"/>
+            android:layout_width="fill_parent"
+            style="@style/header"
+            android:text="@string/tag_info_header" />
+
+        <View style="@style/header_line" />
+
+        <TableLayout
+            android:layout_height="fill_parent"
+            android:layout_width="fill_parent">
+
+            <TableRow
+                style="@style/card_row">
+                <TextView
+                    android:id="@+id/sendmsg_to"
+                    style="@style/label"
+                    android:text="@string/message_to_label"/>
+
+                <TextView
+                    android:id="@+id/sendmsg_name"
+                    style="@style/value"/>
+            </TableRow>
+
+            <TableRow
+                style="@style/card_row">
+                <TextView
+                    android:id="@+id/sendmsg_preloc"
+                    style="@style/label"
+                    android:text="@string/message_location_label"/>
+
+                <TextView
+                    android:id="@+id/sendmsg_location"
+                    style="@style/value"/>
+            </TableRow>
+
+        </TableLayout>
+    </LinearLayout>
+
+
 
     <EditText
-            android:id="@+id/sendmsg_text"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            style="@android:style/Widget.Holo.Light.EditText"
+        android:id="@+id/sendmsg_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
 
-            android:hint="@string/message_hint"
-            android:lines="4"
-            android:gravity="top"
+        android:hint="@string/message_hint"
+        android:lines="4"
+        android:gravity="top"
 
-            android:layout_below="@id/sendmsg_preloc"/>
+        android:layout_below="@id/tag_card" />
 
     <TextView
         android:id="@+id/char_count"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:textSize="18sp"
         android:layout_alignParentRight="true"
         android:textColor="@android:color/primary_text_light"
         android:layout_below="@id/sendmsg_text" />

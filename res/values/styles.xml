@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="layout">
+        <item name="android:padding">4dp</item>
+    </style>
+
+    <style name="label">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#666</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="value">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="header">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="header_line">
+        <item name="android:layout_height">2dip</item>
+        <item name="android:layout_marginBottom">11dip</item>
+        <item name="android:layout_marginTop">11dip</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:background">#888</item>
+    </style>
+
+    <style name="large_instruction">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>
+    </style>
+
+    <style name="card">
+        <item name="android:background">#CCC</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="android:padding">12sp</item>
+    </style>
+
+    <style name="card_row">
+        <item name="android:layout_marginTop">6sp</item>
+        <item name="android:layout_marginBottom">6sp</item>
+    </style>
+</resources>
