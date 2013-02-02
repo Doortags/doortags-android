@@ -4,7 +4,8 @@
     <EditTextPreference
         android:key="pref_name"
         android:title="@string/pref_name_title"
-        android:summary="@string/pref_name_summary" />
+        android:summary="@string/pref_name_summary"
+        android:inputType="textCapWords"/>
     <EditTextPreference
         android:key="pref_number"
         android:title="@string/pref_number_title"

@@ -1,7 +1,6 @@
 package io.doortags.android;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
@@ -24,7 +23,7 @@ public class SettingsActivity extends Activity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
-            addPreferencesFromResource(R.xml.prefs);
+            addPreferencesFromResource(R.xml.card);
         }
     }
 
