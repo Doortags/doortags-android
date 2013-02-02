@@ -42,5 +42,6 @@ public class DoortagsApp extends Application {
         client = DoortagsApiClient.authorize(email, password);
         SharedPreferences.Editor prefEditor = prefs.edit();
         prefEditor.putString(TOKEN_KEY, client.getAuthToken());
+        prefEditor.commit();
     }
 }
