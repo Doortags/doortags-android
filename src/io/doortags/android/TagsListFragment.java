@@ -1,5 +1,8 @@
 package io.doortags.android;
 
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -50,9 +53,19 @@ public class TagsListFragment extends ListFragment {
             case R.id.prefs_item:
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
                 return true;
-            /*case R.id.add_tag_item:
+            case R.id.add_tag_item:
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+                if (prev != null) {
+                    ft.remove(prev);
+                }
+                ft.addToBackStack(null);
+
+                // Create and show the dialog.
+                DialogFragment newFragment = new CreateTagFragment();
+                newFragment.show(ft, "dialog");
                 return true;
-            case R.id.remove_tag_item:
+            /*case R.id.remove_tag_item:
                 return true;*/
             case R.id.refresh_item:
                 (new GetTagsTask()).execute(((DoortagsApp)getActivity().getApplication())

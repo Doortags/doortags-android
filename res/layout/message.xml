@@ -58,12 +58,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
+        android:layout_below="@id/tag_card"
 
         android:hint="@string/message_hint"
         android:lines="4"
         android:gravity="top"
-
-        android:layout_below="@id/tag_card" />
+        android:inputType="textCapSentences"
+        />
 
     <TextView
         android:id="@+id/char_count"
