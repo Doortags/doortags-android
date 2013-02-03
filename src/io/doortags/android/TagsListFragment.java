@@ -4,13 +4,13 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ListFragment;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 import io.doortags.android.api.DoortagsApiClient;
 import io.doortags.android.api.DoortagsApiException;
 import io.doortags.android.api.Tag;
@@ -20,6 +20,9 @@ import java.io.IOException;
 public class TagsListFragment extends ListFragment {
     public static final String TAG = TagsListFragment.class.getSimpleName();
     private ArrayAdapter<Tag> adapter;
+
+    private Menu mOptionsMenu;
+    private View animatedRefresh = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,7 @@ public class TagsListFragment extends ListFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        setRefreshActionItemState(true);
         (new GetTagsTask()).execute(((DoortagsApp)getActivity().getApplication())
                 .getClient());
     }
@@ -42,9 +46,12 @@ public class TagsListFragment extends ListFragment {
         return view;
     }
 
+
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.manage_toolbar, menu);
+        mOptionsMenu = menu;
     }
 
     @Override
@@ -68,6 +75,7 @@ public class TagsListFragment extends ListFragment {
             /*case R.id.remove_tag_item:
                 return true;*/
             case R.id.refresh_item:
+                setRefreshActionItemState(true);
                 (new GetTagsTask()).execute(((DoortagsApp)getActivity().getApplication())
                         .getClient());
                 return true;
@@ -85,12 +93,36 @@ public class TagsListFragment extends ListFragment {
         startActivity(intent);
     }
 
+    public void setRefreshActionItemState(boolean refreshing) {
+        // On Honeycomb, we can set the state of the refresh button by giving it a custom
+        // action view.
+        if (mOptionsMenu == null) {
+            return;
+        }
+
+        final MenuItem refreshItem = mOptionsMenu.findItem(R.id.refresh_item);
+        if (refreshItem != null) {
+            if (refreshing) {
+                if (animatedRefresh == null) {
+                    LayoutInflater inflater = (LayoutInflater)
+                            getActivity().getSystemService(
+                                    Context.LAYOUT_INFLATER_SERVICE);
+                    animatedRefresh = inflater.inflate(
+                            R.layout.actionbar_progress, null);
+                }
+
+                refreshItem.setActionView(animatedRefresh);
+            } else {
+                refreshItem.setActionView(null);
+            }
+        }
+    }
+
     private class GetTagsTask extends AsyncTask<DoortagsApiClient, Void, Tag[]> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Toast.makeText(getActivity(), "Fetching tags...",
-                    Toast.LENGTH_SHORT).show();
+            //setRefreshActionItemState(true);
         }
 
         @Override
@@ -110,6 +142,7 @@ public class TagsListFragment extends ListFragment {
         @Override
         protected void onPostExecute(Tag[] tags) {
             super.onPostExecute(tags);
+            setRefreshActionItemState(false);
             if (tags == null) return;
 
             adapter = new ArrayAdapter<Tag>(getActivity(),
