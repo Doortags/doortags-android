@@ -20,13 +20,6 @@ import io.doortags.android.utils.Tuple;
 
 import java.io.IOException;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Alain
- * Date: 1/20/13
- * Time: 7:51 AM
- * To change this template use File | Settings | File Templates.
- */
 public class SendProgressFragment extends DialogFragment {
 
     private int id;
@@ -107,16 +100,12 @@ public class SendProgressFragment extends DialogFragment {
         @Override
         protected Tuple<Boolean, String> doInBackground(String... params) {
             String id = params[0];
-            clientName = "Client Name";
-            clientLocation = "Client Location";
 
             // This blocks and can throw exceptions
             try {
                 Tag tag = DoortagsApiClient.getTag(Integer.parseInt(id));
                 clientName = tag.getUser();
                 clientLocation = tag.getLocation();
-
-
             } catch (IOException e) {
                 return new Tuple<Boolean, String>(false, "Please check your connection");
             } catch (DoortagsApiException e) {
