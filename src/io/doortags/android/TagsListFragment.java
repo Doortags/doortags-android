@@ -1,9 +1,6 @@
 package io.doortags.android;
 
-import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.app.ListFragment;
+import android.app.*;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -37,6 +34,9 @@ public class TagsListFragment extends ListFragment {
         setRefreshActionItemState(true);
         (new GetTagsTask()).execute(((DoortagsApp)getActivity().getApplication())
                 .getClient());
+
+        ActionBar actionBar = getActivity().getActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -55,6 +55,9 @@ public class TagsListFragment extends ListFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:     // app icon in action bar
+                getFragmentManager().popBackStack();
+                return true;
             case R.id.prefs_item:
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
                 return true;
