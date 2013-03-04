@@ -15,7 +15,7 @@
     <string name="pref_number_title">Phone number</string>
     <string name="pref_number_summary">Your phone number</string>
 
-    <!-- ReadingFragment -->
+    <!-- CardFragment -->
     <string name="read_hint">Place your device on the tag to read</string>
     <string name="card_header">My card</string>
     <string name="card_name_label">Name</string>
@@ -44,5 +44,7 @@
     <string name="send_button_title">Send</string>
     <string name="cancel_button_title">Cancel</string>
     <string name="submit_button">Submit</string>
+    <string name="manage_tags_hint">Tap here to manage your tags (login required)</string>
+    <string name="edit_card_hint">Tap to edit your business card</string>
 
 </resources>

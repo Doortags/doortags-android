@@ -97,8 +97,8 @@ public class LoginFragment extends DialogFragment {
 
                 FragmentManager manager = getActivity().getFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.fragment_container,
-                        new TagsListFragment(), MainActivity.MANAGE_ID);
+                /*transaction.replace(R.id.fragment_container,
+                        new TagsListFragment(), MainActivity.MANAGE_ID);*/
                 transaction.commit();
 
                 parent.dismiss();

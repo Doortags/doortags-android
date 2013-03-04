@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.TextView;
 
-public class ReadingFragment extends Fragment {
+public class CardFragment extends Fragment {
     private TextView cardName, phoneNumber;
 
     @Override
@@ -19,7 +19,7 @@ public class ReadingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
-        View view = inflater.inflate(R.layout.reading_fragment, container, false);
+        View view = inflater.inflate(R.layout.card_fragment, container, false);
         return view;
     }
 
