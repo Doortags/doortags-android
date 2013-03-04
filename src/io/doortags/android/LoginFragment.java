@@ -96,10 +96,18 @@ public class LoginFragment extends DialogFragment {
                 Toast.makeText(ctx, "Login successful", Toast.LENGTH_SHORT).show();
 
                 FragmentManager manager = getActivity().getFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                /*transaction.replace(R.id.fragment_container,
-                        new TagsListFragment(), MainActivity.MANAGE_ID);*/
-                transaction.commit();
+                FragmentTransaction ft = manager.beginTransaction();
+                ft.addToBackStack(null);
+
+                Fragment tagsList = manager.findFragmentByTag(MainActivity.MANAGE_ID);
+                if (tagsList != null) {
+                    ft.remove(tagsList);
+                } else {
+                    tagsList = new TagsListFragment();
+                }
+
+                ft.replace(R.id.fragment_container, tagsList, MainActivity.MANAGE_ID);
+                ft.commit();
 
                 parent.dismiss();
             }

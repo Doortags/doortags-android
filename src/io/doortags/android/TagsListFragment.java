@@ -46,8 +46,6 @@ public class TagsListFragment extends ListFragment {
         return view;
     }
 
-
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.manage_toolbar, menu);

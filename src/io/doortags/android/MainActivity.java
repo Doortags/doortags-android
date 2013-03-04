@@ -2,28 +2,22 @@ package io.doortags.android;
 
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.drawable.ColorDrawable;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 import io.doortags.android.utils.Utils;
 import org.danielge.nfcskeleton.NdefReaderActivity;
 
 public class MainActivity extends NdefReaderActivity {
-    private static final int POS_RING = 0,
-                             POS_MANAGE = 1;
-    static final String RING_ID = "ring",
-                        MANAGE_ID = "manage";
+    static final String MANAGE_ID = "manage";
     private static final String TAG = MainActivity.class.getSimpleName();
 
     /**
@@ -34,13 +28,10 @@ public class MainActivity extends NdefReaderActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        // Initialize the overlay
-        // Adapted from:
-        // http://stackoverflow.com/questions/5211912/android-overlay-a-picture-jpg-with-transparency
-        View overlay = findViewById(R.id.card_overlay);
-        int opacity = 150, color = 0x0CCCCCC;
-        overlay.setBackground(new ColorDrawable(opacity * 0x1000000 + color));
-        overlay.invalidate();
+        // Initialize the MainFragment into view
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, new MainFragment());
+        transaction.commit();
     }
 
     @Override
@@ -85,25 +76,40 @@ public class MainActivity extends NdefReaderActivity {
 
     }
 
+    /* Called by tapping the business card */
     public void openCard (View _) {
         startActivity(new Intent(this, SettingsActivity.class));
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_toolbar, menu);
-        return true;
-    }
+    /* Called by tapping the manage tags "card" */
+    public void openTagManager (View _) {
+        /* Show the login dialog if the user has never logged in before */
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.prefs_item:
-                startActivity(new Intent(this, SettingsActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        DoortagsApp app = (DoortagsApp) getApplication();
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction ft = manager.beginTransaction();
+        if (app.getClient() == null) {
+            Fragment prev = manager.findFragmentByTag("dialog");
+            if (prev != null) {
+                ft.remove(prev);
+            }
+            ft.addToBackStack(null);
+
+            // Create and show the dialog.
+            DialogFragment newFragment = new LoginFragment();
+            newFragment.show(ft, "dialog");
+        } else {
+            ft.addToBackStack(null);
+
+            Fragment tagsList = manager.findFragmentByTag(MANAGE_ID);
+            if (tagsList != null) {
+                ft.remove(tagsList);
+            } else {
+                tagsList = new TagsListFragment();
+            }
+
+            ft.replace(R.id.fragment_container, tagsList, MANAGE_ID);
+            ft.commit();
         }
     }
 }

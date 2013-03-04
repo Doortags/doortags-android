@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+        >
+
+    <TextView style="@style/large_instruction"
+              android:text="@string/read_hint"
+              android:paddingLeft="18dp"
+              android:paddingRight="18dp"
+              android:gravity="center"
+              android:layout_marginTop="25dp"
+              android:layout_marginBottom="25dp"/>
+
+    <!-- LinearLayout container for dividing the space vertically in half evenly -->
+    <LinearLayout android:orientation="vertical"
+                  android:layout_height="fill_parent"
+                  android:layout_width="fill_parent">
+        <FrameLayout android:layout_width="fill_parent"
+                     android:layout_height="fill_parent"
+                     style="@style/card"
+                     android:onClick="openCard"
+                     android:layout_weight="1">
+
+            <!-- Card "preview" -->
+            <LinearLayout android:orientation="vertical"
+                          android:layout_width="match_parent"
+                          android:layout_height="match_parent">
+
+                <TextView android:layout_width="fill_parent"
+                          android:layout_height="wrap_content"
+                          android:text="@string/card_header"
+                          style="@style/header"
+                        />
+
+                <View style="@style/header_line" />
+
+                <TextView style="@style/label"
+                          android:layout_marginTop="6sp"
+                          android:text="@string/card_name_label" />
+
+                <TextView android:id="@+id/card_name"
+                          android:layout_marginBottom="6sp"
+                          style="@style/value" />
+
+                <TextView style="@style/label"
+                          android:layout_marginTop="6sp"
+                          android:text="@string/card_phone_label" />
+
+                <TextView android:id="@+id/card_phone"
+                          android:layout_marginBottom="6sp"
+                          style="@style/value" />
+            </LinearLayout>
+
+            <!-- Overlay -->
+            <TextView android:id="@+id/card_overlay"
+                      android:layout_width="fill_parent"
+                      android:layout_height="fill_parent"
+                      android:gravity="center"
+                      android:textSize="22sp"
+                      android:padding="6sp"
+                      android:text="@string/edit_card_hint" />
+        </FrameLayout>
+
+
+        <TextView android:onClick="openTagManager"
+                  android:clickable="true"
+                  style="@style/card"
+                  android:layout_height="fill_parent"
+                  android:layout_weight="1"
+                  android:textSize="22sp"
+                  android:gravity="center"
+                  android:text="@string/manage_tags_hint" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
