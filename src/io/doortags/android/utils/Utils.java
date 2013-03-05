@@ -10,6 +10,17 @@ public class Utils {
 
     public static final String SENDER_ID = "343180867553";
 
+    /* Fragment tags for dialogs */
+    public static final String FTAG_PROGRESS  = "progress_dialog";
+    public static final String FTAG_EDIT_CARD = "edit_card";
+    public static final String FTAG_NFC_WRITE = "write_tag";
+    public static final String FTAG_ADD_TAG   = "add_tag";
+    public static final String FTAG_MESSAGE   = "message_dialog";
+
+    /* Fragment tags for other fragments */
+    public static final String FTAG_TAGMAN = "tag_manager";
+
+
     /**
      * Reads an InputStream into a String
      *

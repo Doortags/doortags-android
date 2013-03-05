@@ -11,6 +11,7 @@ import android.widget.ListView;
 import io.doortags.android.api.DoortagsApiClient;
 import io.doortags.android.api.DoortagsApiException;
 import io.doortags.android.api.Tag;
+import io.doortags.android.utils.Utils;
 
 import java.io.IOException;
 
@@ -63,7 +64,7 @@ public class TagsListFragment extends ListFragment {
                 return true;
             case R.id.add_tag_item:
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
-                Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+                Fragment prev = getFragmentManager().findFragmentByTag(Utils.FTAG_ADD_TAG);
                 if (prev != null) {
                     ft.remove(prev);
                 }
@@ -71,7 +72,7 @@ public class TagsListFragment extends ListFragment {
 
                 // Create and show the dialog.
                 DialogFragment newFragment = new CreateTagFragment();
-                newFragment.show(ft, "dialog");
+                newFragment.show(ft, Utils.FTAG_ADD_TAG);
                 return true;
             /*case R.id.remove_tag_item:
                 return true;*/

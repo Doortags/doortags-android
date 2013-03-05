@@ -116,7 +116,7 @@ public class MainActivity extends NdefBaseActivity {
         int id = Integer.parseInt(new String(msgarray[0].getPayload()));
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        Fragment prev = getFragmentManager().findFragmentByTag(Utils.FTAG_PROGRESS);
         if (prev != null) {
             ft.remove(prev);
         }
@@ -125,7 +125,7 @@ public class MainActivity extends NdefBaseActivity {
         // Create and show the dialog.
 
         DialogFragment newFragment = SendProgressFragment.newInstance(id);
-        newFragment.show(ft, "dialog");
+        newFragment.show(ft, Utils.FTAG_PROGRESS);
 
     }
 
@@ -134,14 +134,14 @@ public class MainActivity extends NdefBaseActivity {
         FragmentManager manager = getFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
 
-        Fragment prev = manager.findFragmentByTag("edit_card");
+        Fragment prev = manager.findFragmentByTag(Utils.FTAG_EDIT_CARD);
         if (prev != null) {
             ft.remove(prev);
         }
         ft.addToBackStack(null);
 
         DialogFragment editCard = new EditCardFragment();
-        editCard.show(ft, "edit_card");
+        editCard.show(ft, Utils.FTAG_EDIT_CARD);
     }
 
     /* Called by tapping the manage tags "card" */
@@ -152,7 +152,7 @@ public class MainActivity extends NdefBaseActivity {
         FragmentManager manager = getFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
         if (app.getClient() == null) {
-            Fragment prev = manager.findFragmentByTag("dialog");
+            Fragment prev = manager.findFragmentByTag(Utils.FTAG_TAGMAN);
             if (prev != null) {
                 ft.remove(prev);
             }
@@ -160,7 +160,7 @@ public class MainActivity extends NdefBaseActivity {
 
             // Create and show the dialog.
             DialogFragment newFragment = new LoginFragment();
-            newFragment.show(ft, "dialog");
+            newFragment.show(ft, Utils.FTAG_TAGMAN);
         } else {
             ft.addToBackStack(null);
 
@@ -181,7 +181,7 @@ public class MainActivity extends NdefBaseActivity {
 
         FragmentManager manager = getFragmentManager();
         FragmentTransaction ft = manager.beginTransaction();
-        Fragment prev = manager.findFragmentByTag("writeDialog");
+        Fragment prev = manager.findFragmentByTag(Utils.FTAG_NFC_WRITE);
         if (prev != null) {
             ft.remove(prev);
         }
@@ -192,7 +192,7 @@ public class MainActivity extends NdefBaseActivity {
         tagIdToWrite = id;
         disableReadTagMode();
         enableWriteTagMode();
-        writeDialog.show(ft, "writeDialog");
+        writeDialog.show(ft, Utils.FTAG_NFC_WRITE);
     }
 
     private WriteTagDialog prepareWriteDialog(int id, String location) {
