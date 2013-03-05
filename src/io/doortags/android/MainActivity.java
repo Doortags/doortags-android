@@ -9,14 +9,15 @@ import android.content.IntentFilter;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+import io.doortags.android.nfc.NdefBaseActivity;
 import io.doortags.android.utils.Utils;
-import org.danielge.nfcskeleton.NdefReaderActivity;
 
-public class MainActivity extends NdefReaderActivity {
+public class MainActivity extends NdefBaseActivity {
     static final String MANAGE_ID = "manage";
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -35,12 +36,17 @@ public class MainActivity extends NdefReaderActivity {
     }
 
     @Override
+    protected void onTagDiscovered(Tag tag) {
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         IntentFilter[] filter = new IntentFilter[1];
         filter[0] = buildIntentFilter();
         enableReadTagMode(filter);
     }
+
     private IntentFilter buildIntentFilter() {
         IntentFilter filter = new IntentFilter();
         filter.addAction(NfcAdapter.ACTION_NDEF_DISCOVERED);
