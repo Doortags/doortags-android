@@ -78,7 +78,17 @@ public class MainActivity extends NdefReaderActivity {
 
     /* Called by tapping the business card */
     public void openCard (View _) {
-        startActivity(new Intent(this, SettingsActivity.class));
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction ft = manager.beginTransaction();
+
+        Fragment prev = manager.findFragmentByTag("edit_card");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        DialogFragment editCard = new EditCardFragment();
+        editCard.show(ft, "edit_card");
     }
 
     /* Called by tapping the manage tags "card" */

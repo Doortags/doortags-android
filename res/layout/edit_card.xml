@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <!-- The "My Card" title and the header line will be provided
+         by the dialog instantiation -->
+
+    <TextView android:layout_height="wrap_content"
+              android:layout_width="match_parent"
+              android:layout_marginTop="6sp"
+              android:text="@string/card_name_label" />
+
+    <EditText android:id="@+id/name_edit"
+              android:layout_height="wrap_content"
+              android:layout_width="match_parent"
+              android:inputType="textCapWords"
+              android:layout_marginBottom="6sp" />
+
+    <TextView android:layout_height="wrap_content"
+              android:layout_width="match_parent"
+              android:layout_marginTop="6sp"
+              android:text="@string/card_phone_label" />
+
+    <EditText android:id="@+id/phone_edit"
+              android:layout_marginBottom="6sp"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:inputType="phone" />
+</LinearLayout>
