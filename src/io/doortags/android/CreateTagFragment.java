@@ -62,18 +62,15 @@ public class CreateTagFragment extends DialogFragment {
     private class CreateTagTask
             extends AsyncTask<String, Void, Tuple<Boolean, Object>> {
         private final DoortagsApiClient client;
-        private final CreateTagFragment parent;
 
         public CreateTagTask (DoortagsApiClient client) {
             this.client = client;
-
-            this.parent = CreateTagFragment.this;
         }
 
         @Override
         protected Tuple<Boolean, Object> doInBackground(String... params) {
             String location = params[0];
-            Tag tag = null;
+            Tag tag;
 
             try {
                 tag = client.createTag(location);

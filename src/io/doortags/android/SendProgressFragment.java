@@ -46,20 +46,17 @@ public class SendProgressFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.sendprogress_fragment, container, false);
-        return view;
+        return inflater.inflate(R.layout.sendprogress_fragment, container, false);
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        final SendProgressFragment that = this;
-        Activity act = that.getActivity();
-        DoortagsApp app = (DoortagsApp) act.getApplication();
+        Activity act = this.getActivity();
 
-        String identifier =  String.valueOf(id);
-        task = new SendProgressTask(act, app);
+        String identifier = String.valueOf(id);
+        task = new SendProgressTask(act);
         task.execute(identifier);
     }
 
@@ -75,13 +72,11 @@ public class SendProgressFragment extends DialogFragment {
             Tuple<Boolean, String>> {
         private final Context ctx;
         private final SendProgressFragment parent;
-        private final DoortagsApp app;
 
 
-        public SendProgressTask(Context ctx, DoortagsApp app) {
+        public SendProgressTask(Context ctx) {
 
             this.ctx = ctx;
-            this.app = app;
             this.parent = SendProgressFragment.this;
         }
 

@@ -100,7 +100,7 @@ public class MessageActivity extends Activity {
 
             NdefRecord[] records = msgs[0].getRecords();
             String id = new String(records[0].getPayload());
-            (new SendProgressTask(this, (DoortagsApp) getApplication())).execute(id);
+            (new SendProgressTask(this)).execute(id);
         } else {
             int id = intent.getIntExtra("id", 0);
             String name = intent.getStringExtra("name");
@@ -132,13 +132,11 @@ public class MessageActivity extends Activity {
 
     private class SendProgressTask extends AsyncTask<String, Void, Tag> {
         private final Context ctx;
-        private final DoortagsApp app;
         private String clientName, clientLocation;
 
 
-        public SendProgressTask(Context ctx, DoortagsApp app) {
+        public SendProgressTask(Context ctx) {
             this.ctx = ctx;
-            this.app = app;
 
             clientName = "";
             clientLocation = "";

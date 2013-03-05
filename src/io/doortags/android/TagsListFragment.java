@@ -43,8 +43,7 @@ public class TagsListFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
-        View view = inflater.inflate(R.layout.tags_list, container, false);
-        return view;
+        return inflater.inflate(R.layout.tags_list, container, false);
     }
 
     @Override
@@ -129,8 +128,7 @@ public class TagsListFragment extends ListFragment {
             DoortagsApiClient client = params[0];
 
             try {
-                Tag[] tags = client.getAllTags();
-                return tags;
+                return client.getAllTags();
             } catch (IOException e) {
                 return null;
             } catch (DoortagsApiException e) {

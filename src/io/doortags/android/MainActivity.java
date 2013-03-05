@@ -220,12 +220,10 @@ public class MainActivity extends NdefBaseActivity {
             TextView location = (TextView) view.findViewById(R.id.location);
             location.setText(getArguments().getString("location"));
 
-            final AlertDialog d = new AlertDialog.Builder(getActivity())
+            return new AlertDialog.Builder(getActivity())
                     .setTitle(R.string.edit_card_title)
                     .setView(view)
                     .setNegativeButton(R.string.cancel_button_title, null).create();
-
-            return d;
         }
 
         @Override
