@@ -27,7 +27,7 @@ public class EditCardFragment extends DialogFragment {
         cardPhone.setText(app.getPrefs().getString(SettingsActivity.PREF_PHONE, ""));
 
         final AlertDialog d = new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.login_title)
+                .setTitle(R.string.edit_card_title)
                 .setView(view)
                 .setPositiveButton(R.string.submit_button,
                         new DialogInterface.OnClickListener() {

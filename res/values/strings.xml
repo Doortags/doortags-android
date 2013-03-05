@@ -20,6 +20,7 @@
     <string name="card_header">My card</string>
     <string name="card_name_label">Name</string>
     <string name="card_phone_label">Phone number</string>
+    <string name="edit_card_title">Edit card</string>
 
     <!-- LoginFragment -->
     <string name="login_title">Log in to continue</string>
