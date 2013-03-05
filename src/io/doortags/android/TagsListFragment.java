@@ -88,10 +88,7 @@ public class TagsListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Tag tag = adapter.getItem(position);
-        Intent intent = new Intent(getActivity(), WriteTagActivity.class);
-        intent.putExtra("id", tag.getId());
-        intent.putExtra("location", tag.getLocation());
-        startActivity(intent);
+        ((MainActivity) getActivity()).prepareToWrite(tag.getId(), tag.getLocation());
     }
 
     public void setRefreshActionItemState(boolean refreshing) {

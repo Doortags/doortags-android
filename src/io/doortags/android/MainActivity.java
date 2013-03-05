@@ -1,25 +1,30 @@
 package io.doortags.android;
 
-import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.app.*;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.nfc.NdefMessage;
-import android.nfc.NdefRecord;
-import android.nfc.NfcAdapter;
-import android.nfc.Tag;
+import android.nfc.*;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import io.doortags.android.nfc.NdefBaseActivity;
 import io.doortags.android.utils.Utils;
+import org.danielge.nfcskeleton.NfcUtils;
+
+import java.io.IOException;
+import java.nio.charset.Charset;
 
 public class MainActivity extends NdefBaseActivity {
     static final String MANAGE_ID = "manage";
     private static final String TAG = MainActivity.class.getSimpleName();
+
+    // hack so that dialog in TagsListFragment can tell this Activity what to write
+    private int tagIdToWrite = -1;
+    private DialogFragment writeDialog = null;
 
     /**
      * Called when the activity is first created.
@@ -35,16 +40,58 @@ public class MainActivity extends NdefBaseActivity {
         transaction.commit();
     }
 
+    private NdefMessage prepareMessage (int id) {
+        NdefRecord record = new NdefRecord(
+                NdefRecord.TNF_MIME_MEDIA,
+                Utils.MIME.getBytes(Charset.forName("US-ASCII")),
+                new byte[0],
+                String.valueOf(id).getBytes(Charset.forName("US-ASCII"))
+        );
+
+        return new NdefMessage(new NdefRecord[]{record});
+    }
+
     @Override
     protected void onTagDiscovered(Tag tag) {
+        try {
+            NdefMessage msgNFC = prepareMessage(tagIdToWrite);
+            NfcUtils.writeNdefTag(msgNFC, tag);
+            Toast.makeText(this.getApplicationContext(), "Successfully wrote to Tag", Toast.LENGTH_SHORT).show();
+
+            writeDialog.dismiss();
+            // write mode will be disabled and read mode will be enabled on resume
+        }
+        catch (FormatException e) {
+            Log.i("WriteToNFC", "Writing to NDEF failed in WriteToNFC");
+        }
+        catch (NfcUtils.TagNotWritableException e) {
+            Log.i("WriteToNFC", e.toString());
+        }
+        catch (NfcUtils.NdefMessageTooLongException e) {
+            Log.i("WriteToNFC", "e");
+        } catch (IOException e) {
+            Log.i("WriteToNFC", "");
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        tagIdToWrite = -1;
+        disableWriteTagMode();
+        enableReadTagMode();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    public void enableReadTagMode() {
         IntentFilter[] filter = new IntentFilter[1];
         filter[0] = buildIntentFilter();
-        enableReadTagMode(filter);
+        super.enableReadTagMode(filter);
     }
 
     private IntentFilter buildIntentFilter() {
@@ -128,4 +175,65 @@ public class MainActivity extends NdefBaseActivity {
             ft.commit();
         }
     }
+
+    void prepareToWrite (int id, String location) {
+        if (id == -1) throw new IllegalArgumentException();
+
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction ft = manager.beginTransaction();
+        Fragment prev = manager.findFragmentByTag("writeDialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        writeDialog = prepareWriteDialog(id, location);
+
+        tagIdToWrite = id;
+        disableReadTagMode();
+        enableWriteTagMode();
+        writeDialog.show(ft, "writeDialog");
+    }
+
+    private WriteTagDialog prepareWriteDialog(int id, String location) {
+        WriteTagDialog frag = new WriteTagDialog();
+
+        Bundle args = new Bundle();
+        args.putInt("id", id);
+        args.putString("location", location);
+        frag.setArguments(args);
+
+        return frag;
+    }
+
+    private class WriteTagDialog extends DialogFragment {
+        @Override
+        public void onActivityCreated(Bundle savedInstanceState) {
+            super.onActivityCreated(savedInstanceState);
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            LayoutInflater inflater = LayoutInflater.from(getActivity());
+            final View view = inflater.inflate(R.layout.nfc_write, null);
+
+            TextView location = (TextView) view.findViewById(R.id.location);
+            location.setText(getArguments().getString("location"));
+
+            final AlertDialog d = new AlertDialog.Builder(getActivity())
+                    .setTitle(R.string.edit_card_title)
+                    .setView(view)
+                    .setNegativeButton(R.string.cancel_button_title, null).create();
+
+            return d;
+        }
+
+        @Override
+        public void onDismiss(DialogInterface dialog) {
+            super.onDismiss(dialog);
+            disableWriteTagMode();
+            enableReadTagMode();
+        }
+    }
+
 }
