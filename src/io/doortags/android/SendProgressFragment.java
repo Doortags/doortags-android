@@ -24,6 +24,8 @@ public class SendProgressFragment extends DialogFragment {
     private String clientName;
     private String clientLocation;
 
+    private AsyncTask<String, Void, Tuple<Boolean, String>> task = null;
+
     static SendProgressFragment newInstance(int id) {
         SendProgressFragment f = new SendProgressFragment();
         Bundle args = new Bundle();
@@ -57,20 +59,16 @@ public class SendProgressFragment extends DialogFragment {
         DoortagsApp app = (DoortagsApp) act.getApplication();
 
         String identifier =  String.valueOf(id);
-        (new SendProgressTask(act, app)).execute(identifier);
-
+        task = new SendProgressTask(act, app);
+        task.execute(identifier);
     }
 
     @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-
-        Intent intent = new Intent(getActivity(), MessageActivity.class)
-                .putExtra("id", id)
-                .putExtra("name", clientName)
-                .putExtra("location", clientLocation);
-
-        startActivity(intent);
+    public void onCancel(DialogInterface dialog) {
+        super.onCancel(dialog);
+        if (task != null) {
+            task.cancel(true);
+        }
     }
 
     private class SendProgressTask extends AsyncTask<String, Void,
@@ -113,6 +111,12 @@ public class SendProgressFragment extends DialogFragment {
                 parent.getDialog().cancel();
 
             } else {
+                Intent intent = new Intent(getActivity(), MessageActivity.class)
+                        .putExtra("id", id)
+                        .putExtra("name", clientName)
+                        .putExtra("location", clientLocation);
+
+                startActivity(intent);
                 parent.dismiss();
              }
         }
