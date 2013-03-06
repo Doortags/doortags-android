@@ -45,7 +45,9 @@
     <string name="send_button_title">Send</string>
     <string name="cancel_button_title">Cancel</string>
     <string name="submit_button">Submit</string>
+
     <string name="manage_tags_hint">Tap here to manage your tags (login required)</string>
     <string name="edit_card_hint">Tap to edit your business card</string>
+    <string name="create_tag_title">Create tag</string>
 
 </resources>

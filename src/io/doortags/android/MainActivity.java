@@ -221,7 +221,7 @@ public class MainActivity extends NdefBaseActivity {
             location.setText(getArguments().getString("location"));
 
             return new AlertDialog.Builder(getActivity())
-                    .setTitle(R.string.edit_card_title)
+                    .setTitle(R.string.write_tag_title)
                     .setView(view)
                     .setNegativeButton(R.string.cancel_button_title, null).create();
         }

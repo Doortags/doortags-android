@@ -20,13 +20,16 @@ import io.doortags.android.utils.Tuple;
 import java.io.IOException;
 
 public class CreateTagFragment extends DialogFragment {
+    int identifier = -1;
+    String location = null;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         final View view = inflater.inflate(R.layout.create_tag, null);
 
         final AlertDialog d = new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.login_title)
+                .setTitle(R.string.create_tag_title)
                 .setView(view)
                 .setPositiveButton(R.string.submit_button,
                         new DialogInterface.OnClickListener() {
