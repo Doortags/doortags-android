@@ -23,7 +23,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".SettingsActivity"/>
-        <activity android:name=".WriteTagActivity" />
         <activity android:name=".MessageActivity">
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />

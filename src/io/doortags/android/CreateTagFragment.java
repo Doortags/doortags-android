@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -59,6 +58,24 @@ public class CreateTagFragment extends DialogFragment {
         return d;
     }
 
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        super.onCancel(dialog);
+        identifier = -1;
+        location = null;
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+
+        if (identifier == -1 && location == null) {
+            return;
+        }
+
+        ((MainActivity) getActivity()).prepareToWrite(identifier, location);
+    }
+
     private class CreateTagTask
             extends AsyncTask<String, Void, Tuple<Boolean, Object>> {
         private final DoortagsApiClient client;
@@ -89,19 +106,17 @@ public class CreateTagFragment extends DialogFragment {
                 String message = (String) result.getSecond();
                 Toast.makeText(getActivity(), message,
                         Toast.LENGTH_LONG).show();
+
+                getDialog().cancel();
             } else {
                 Toast.makeText(getActivity(), "Successfully created tag",
                         Toast.LENGTH_SHORT).show();
 
                 Tag tag = (Tag) result.getSecond();
-                int id = tag.getId();
-                String loc = tag.getLocation();
+                identifier = tag.getId();
+                location = tag.getLocation();
 
                 getDialog().dismiss();
-                Intent intent = new Intent(getActivity(), WriteTagActivity.class)
-                        .putExtra("id", id)
-                        .putExtra("location", loc);
-                startActivity(intent);
             }
         }
     }
