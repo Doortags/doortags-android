@@ -72,6 +72,9 @@ public class CreateTagFragment extends DialogFragment {
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
 
+        // HACK to ensure that cancelling actually kills the dialog and this UI flow
+        // while actual dismissal as a result of successful creation starts the NFC
+        // writing flow
         if (identifier == -1 && location == null) {
             return;
         }

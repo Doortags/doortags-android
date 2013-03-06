@@ -54,6 +54,7 @@ public class MainActivity extends NdefBaseActivity {
     @Override
     protected void onTagDiscovered(Tag tag) {
         try {
+            // Write the tag ID to the tag
             NdefMessage msgNFC = prepareMessage(tagIdToWrite);
             NfcUtils.writeNdefTag(msgNFC, tag);
             Toast.makeText(this.getApplicationContext(), "Successfully wrote to Tag", Toast.LENGTH_SHORT).show();
@@ -88,6 +89,8 @@ public class MainActivity extends NdefBaseActivity {
         super.onPause();
     }
 
+    /* Wrapper for enableReadTagMode(IntentFilter) that provides the default
+       IntentFilter. */
     public void enableReadTagMode() {
         IntentFilter[] filter = new IntentFilter[1];
         filter[0] = buildIntentFilter();
@@ -109,9 +112,12 @@ public class MainActivity extends NdefBaseActivity {
         return filter;
     }
 
+    /* On receipt of the NDEF message, start the UI flow:
+
+       progress dialog (fetching tag information) -> MessageActivity
+     */
     @Override
     protected void onNdefMessage(NdefMessage ndefMessage) {
-
         NdefRecord[] msgarray = ndefMessage.getRecords();
         int id = Integer.parseInt(new String(msgarray[0].getPayload()));
 
@@ -176,6 +182,8 @@ public class MainActivity extends NdefBaseActivity {
         }
     }
 
+    /* Disable read mode, enable write mode, and show dialog prompting user to
+       write to the tag. */
     void prepareToWrite (int id, String location) {
         if (id == -1) throw new IllegalArgumentException();
 
@@ -207,10 +215,6 @@ public class MainActivity extends NdefBaseActivity {
     }
 
     private class WriteTagDialog extends DialogFragment {
-        @Override
-        public void onActivityCreated(Bundle savedInstanceState) {
-            super.onActivityCreated(savedInstanceState);
-        }
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {

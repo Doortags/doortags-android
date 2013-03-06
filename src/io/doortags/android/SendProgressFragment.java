@@ -45,7 +45,6 @@ public class SendProgressFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
-
         return inflater.inflate(R.layout.sendprogress_fragment, container, false);
     }
 
@@ -63,6 +62,9 @@ public class SendProgressFragment extends DialogFragment {
     @Override
     public void onCancel(DialogInterface dialog) {
         super.onCancel(dialog);
+
+        // ensure that the task does not attempt to perform post execution if the
+        // dialog gets canceled
         if (task != null) {
             task.cancel(true);
         }

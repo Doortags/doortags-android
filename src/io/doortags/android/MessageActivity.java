@@ -51,6 +51,7 @@ public class MessageActivity extends Activity {
 
         onIntent(getIntent());
 
+        // Update the characters remaining counter as the user types
         messageBox.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -86,6 +87,7 @@ public class MessageActivity extends Activity {
     }
 
     private void onIntent(Intent intent) {
+        // If this Activity gets started via NFC
         if (NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
             Parcelable[] rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
             if (rawMsgs == null) {
@@ -101,7 +103,8 @@ public class MessageActivity extends Activity {
             NdefRecord[] records = msgs[0].getRecords();
             String id = new String(records[0].getPayload());
             (new SendProgressTask(this)).execute(id);
-        } else {
+
+        } else {    // If this Activity gets launched *BY* the app via NFC
             int id = intent.getIntExtra("id", 0);
             String name = intent.getStringExtra("name");
             String location = intent.getStringExtra("location");
@@ -130,6 +133,8 @@ public class MessageActivity extends Activity {
         }
     }
 
+    /* For fetching tag information when the app is started by via NFC.
+     * Not used when the tag is read when the app is already opened. */
     private class SendProgressTask extends AsyncTask<String, Void, Tag> {
         private final Context ctx;
         private String clientName, clientLocation;
@@ -137,9 +142,6 @@ public class MessageActivity extends Activity {
 
         public SendProgressTask(Context ctx) {
             this.ctx = ctx;
-
-            clientName = "";
-            clientLocation = "";
         }
 
         @Override
@@ -182,6 +184,7 @@ public class MessageActivity extends Activity {
         }
     }
 
+    /* Sends message to the server */
     private class SendMessageTask extends AsyncTask<String, Void,
             Tuple<Boolean, String>> {
         private final Context ctx;
